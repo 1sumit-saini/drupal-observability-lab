@@ -1,5 +1,0 @@
-name: Observability
-type: module
-description: OpenTelemetry instrumentation for the observability lab.
-package: Custom
-core_version_requirement: ^11
