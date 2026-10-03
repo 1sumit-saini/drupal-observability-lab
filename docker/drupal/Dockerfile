@@ -27,6 +27,9 @@ RUN apt-get update && apt-get install -y \
         pdo_mysql \
         xml \
         zip \
+    && pecl install opentelemetry \
+    && docker-php-ext-enable opentelemetry \
+    && rm -rf /tmp/pear \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
