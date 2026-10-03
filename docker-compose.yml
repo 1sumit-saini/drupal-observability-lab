@@ -72,6 +72,25 @@ services:
     networks:
       - observability
 
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.138.0
+
+    container_name: observability-otel-collector
+
+    command:
+      - "--config=/etc/otelcol-contrib/config.yaml"
+
+    volumes:
+      - ./docker/otel/collector-config.yaml:/etc/otelcol-contrib/config.yaml:ro
+
+    ports:
+      - "4317:4317"
+      - "4318:4318"
+      - "8888:8888"
+
+    networks:
+      - observability
+
 volumes:
   drupal_app:
   mysql_data:
