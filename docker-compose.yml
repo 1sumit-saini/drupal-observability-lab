@@ -1,0 +1,82 @@
+services:
+
+  drupal:
+    build:
+      context: .
+      dockerfile: docker/drupal/Dockerfile
+
+    container_name: observability-drupal
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    environment:
+      PHP_MEMORY_LIMIT: 512M
+
+    volumes:
+      - drupal_app:/var/www/html
+      - drupal_files:/var/www/html/web/sites/default/files
+
+    networks:
+      - observability
+
+  nginx:
+    image: nginx:1.27-alpine
+
+    container_name: observability-nginx
+
+    depends_on:
+      - drupal
+
+    ports:
+      - "8080:80"
+
+    volumes:
+      - drupal_app:/var/www/html:ro
+      - drupal_files:/var/www/html/web/sites/default/files
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+
+    networks:
+      - observability
+
+  mysql:
+    image: mysql:8.0
+
+    container_name: observability-mysql
+
+    environment:
+      MYSQL_DATABASE: drupal
+      MYSQL_USER: drupal
+      MYSQL_PASSWORD: drupal
+      MYSQL_ROOT_PASSWORD: root
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-uroot",
+          "-proot"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+    networks:
+      - observability
+
+volumes:
+  drupal_app:
+  mysql_data:
+  drupal_files:
+
+networks:
+  observability:
+    driver: bridge

@@ -1,0 +1,21 @@
+# Drupal dependencies
+/drupal/vendor/
+
+# Drupal generated files
+/drupal/web/sites/default/files/
+/drupal/web/sites/default/settings.php
+/drupal/web/sites/default/services.yml
+
+# Environment
+.env
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
