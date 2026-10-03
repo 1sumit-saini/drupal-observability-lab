@@ -36,18 +36,6 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-COPY drupal/composer.json drupal/composer.lock ./
-
-RUN composer install \
-    --no-interaction \
-    --prefer-dist \
-    --no-progress
-
-COPY drupal/ ./
-
-RUN mkdir -p web/sites/default/files \
-    && chown -R www-data:www-data web/sites/default/files
-
 COPY docker/drupal/php.ini /usr/local/etc/php/conf.d/observability-lab.ini
 
 CMD ["php-fpm"]

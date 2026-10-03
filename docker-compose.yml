@@ -15,7 +15,7 @@ services:
       PHP_MEMORY_LIMIT: 512M
 
     volumes:
-      - drupal_app:/var/www/html
+      - ./drupal:/var/www/html
       - drupal_files:/var/www/html/web/sites/default/files
 
     networks:
@@ -33,7 +33,7 @@ services:
       - "8080:80"
 
     volumes:
-      - drupal_app:/var/www/html:ro
+      - ./drupal:/var/www/html:ro
       - drupal_files:/var/www/html/web/sites/default/files
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
 
@@ -92,7 +92,6 @@ services:
       - observability
 
 volumes:
-  drupal_app:
   mysql_data:
   drupal_files:
 
