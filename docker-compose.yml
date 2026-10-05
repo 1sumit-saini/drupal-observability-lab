@@ -147,12 +147,54 @@ services:
     networks:
       - observability
 
+  loki:
+    image: grafana/loki:3.5.0
+
+    container_name: observability-loki
+
+    command:
+      - "-config.file=/etc/loki/loki.yaml"
+
+    volumes:
+      - ./docker/loki/loki.yaml:/etc/loki/loki.yaml:ro
+      - loki_data:/loki
+
+    ports:
+      - "3100:3100"
+
+    networks:
+      - observability
+
+  alloy:
+    image: grafana/alloy:latest
+
+    container_name: observability-alloy
+
+    command:
+      - "run"
+      - "/etc/alloy/config.alloy"
+      - "--server.http.listen-addr=0.0.0.0:12345"
+
+    volumes:
+      - ./docker/alloy/config.alloy:/etc/alloy/config.alloy:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+    ports:
+      - "12345:12345"
+
+    depends_on:
+      - loki
+
+    networks:
+      - observability
+
 volumes:
   mysql_data:
   drupal_files:
   tempo_data:
   grafana_data:
   prometheus_data:
+  loki_data:
 
 networks:
   observability:
