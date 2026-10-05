@@ -108,11 +108,29 @@ services:
 
     networks:
       - observability
+    
+  grafana:
+    image: grafana/grafana:12.1.1
+
+    container_name: observability-grafana
+
+    depends_on:
+      - tempo
+
+    ports:
+      - "3000:3000"
+
+    volumes:
+      - grafana_data:/var/lib/grafana
+
+    networks:
+      - observability
 
 volumes:
   mysql_data:
   drupal_files:
   tempo_data:
+  grafana_data:
 
 networks:
   observability:
