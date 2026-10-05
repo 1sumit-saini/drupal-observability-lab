@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: Drupal Observability
+    orgId: 1
+    folder: Drupal Observability
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      path: /etc/grafana/provisioning/dashboards
