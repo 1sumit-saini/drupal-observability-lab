@@ -91,9 +91,28 @@ services:
     networks:
       - observability
 
+  tempo:
+    image: grafana/tempo:2.8.2
+
+    container_name: observability-tempo
+
+    command:
+      - "-config.file=/tmp/tempo.yaml"
+
+    volumes:
+      - ./docker/tempo/tempo.yaml:/tmp/tempo.yaml:ro
+      - tempo_data:/var/tempo
+
+    ports:
+      - "3200:3200"
+
+    networks:
+      - observability
+
 volumes:
   mysql_data:
   drupal_files:
+  tempo_data:
 
 networks:
   observability:
