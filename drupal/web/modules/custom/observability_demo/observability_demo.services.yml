@@ -1,0 +1,38 @@
+services:
+  observability_demo.tracer_factory:
+    class: Drupal\observability_demo\OpenTelemetry\TracerFactory
+
+  
+  observability_demo.logger:
+    parent: logger.channel_base
+    arguments:
+      - 'observability_demo'
+
+  observability_demo.request_subscriber:
+    class: Drupal\observability_demo\EventSubscriber\RequestSubscriber
+    arguments:
+      - '@observability_demo.tracer_factory'
+    tags:
+      - { name: event_subscriber }
+
+  observability_demo.controller_subscriber:
+    class: Drupal\observability_demo\EventSubscriber\ControllerSubscriber
+    arguments:
+      - '@observability_demo.tracer_factory'
+      - '@observability_demo.logger'
+    tags:
+      - { name: event_subscriber }
+
+  observability_demo.entity_demo_controller:
+    class: Drupal\observability_demo\Controller\EntityDemoController
+    arguments:
+      - '@entity_type.manager'
+      - '@observability_demo.tracer_factory'
+
+  observability_demo.database_subscriber:
+    class: Drupal\observability_demo\EventSubscriber\DatabaseSubscriber
+    arguments:
+      - '@observability_demo.tracer_factory'
+      - '@database'
+    tags:
+      - { name: event_subscriber }

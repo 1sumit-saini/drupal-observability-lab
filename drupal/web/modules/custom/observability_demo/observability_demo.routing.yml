@@ -1,0 +1,8 @@
+observability_demo.entity_node:
+  path: '/observability-demo/node/{node}'
+  defaults:
+    _controller: 'observability_demo.entity_demo_controller:node'
+    _title: 'Observability Entity Demo'
+  requirements:
+    _permission: 'access content'
+    node: '\d+'

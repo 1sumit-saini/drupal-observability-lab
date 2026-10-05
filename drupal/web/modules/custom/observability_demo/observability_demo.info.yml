@@ -1,0 +1,5 @@
+name: Observability Demo
+type: module
+description: 'Demonstrates application-level OpenTelemetry instrumentation in Drupal.'
+package: Custom
+core_version_requirement: ^11
