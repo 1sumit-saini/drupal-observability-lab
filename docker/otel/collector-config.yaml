@@ -10,14 +10,22 @@ receivers:
 processors:
   batch:
 
+connectors:
+  spanmetrics:
+    namespace: drupal
+    metrics_flush_interval: 5s
+
 exporters:
   debug:
     verbosity: detailed
-  
+
   otlp/tempo:
     endpoint: tempo:4317
     tls:
       insecure: true
+
+  prometheus:
+    endpoint: 0.0.0.0:8889
 
 service:
   pipelines:
@@ -30,14 +38,17 @@ service:
       exporters:
         - debug
         - otlp/tempo
+        - spanmetrics
 
     metrics:
       receivers:
         - otlp
+        - spanmetrics
       processors:
         - batch
       exporters:
         - debug
+        - prometheus
 
     logs:
       receivers:
