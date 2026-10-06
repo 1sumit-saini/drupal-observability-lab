@@ -2,7 +2,7 @@
 
 A reproducible local lab for running a Drupal site with OpenTelemetry, an OpenTelemetry Collector, Grafana Tempo, Prometheus, Loki and Grafana.
 
-The accompanying article explains the observability concepts and implementation decisions. This README focuses only on **getting the lab running and verifying it**.
+The accompanying article explains the [observability concepts](https://medium.com/@sumitsaini7991/beyond-monitoring-understanding-modern-observability-52aa9d5c8ad6) and [implementation decisions](https://medium.com/@sumitsaini7991/i-instrumented-a-drupal-site-end-to-end-what-the-trace-actually-revealed-2c1a82bdc9d6). This README focuses only on **getting the lab running and verifying it**.
 
 ---
 
